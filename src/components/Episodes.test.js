@@ -2,13 +2,20 @@ import React from "react";
 import { render, waitFor, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "../App";
-import { fetchShow } from "../my/api/fetchShow";
+import { fetchShow as mockFetchShow } from "./api/fetchShow";
 
+// jest.mock("./api/fetchShow")
 
-test("testing to see if episodes are present", ()=> {
+// const mockShowData = 
+
+test("testing to see if episodes are present", async ()=> {
     render(<App/>)
 
-    // const selectSeason = screen.getByRole("Dropdown")
-    const selectSeason = screen.getByTestId("selectSeason")
+    // mockFetchShow.mockResolvedValueOnce({data: {}})
+    const dropDown = await screen.findByText(/Select a season/i)
+    
+     
+    // userEvent.click(dropDown)
+
 
 })
