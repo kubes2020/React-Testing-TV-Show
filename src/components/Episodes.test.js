@@ -17,8 +17,13 @@ test("testing to see if episodes are present", async ()=> {
 
     const dropDown = await screen.findByText(/Select a season/i)
     
-     
-    // userEvent.click(dropDown)
+    userEvent.click(dropDown)
+
+    const seasonOne = await screen.findByText(/season 1/i)
+
+    expect(seasonOne).toHaveLength(8)
+
+
 
 
 })
