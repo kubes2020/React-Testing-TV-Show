@@ -7,6 +7,7 @@ import { formatSeasons } from "./utils/formatSeasons";
 
 import Episodes from "./components/Episodes";
 import "./styles.css";
+import { fetchShow } from "./components/api/fetchShow";
 
 export default function App() {
   const [show, setShow] = useState(null);
@@ -14,19 +15,28 @@ export default function App() {
   const [selectedSeason, setSelectedSeason] = useState("");
   const episodes = seasons[selectedSeason] || [];
 
+
   useEffect(() => {
-    const fetchShow = () => {
-      axios
-        .get(
-          "https://api.tvmaze.com/singlesearch/shows?q=stranger-things&embed=episodes"
-        )
-        .then(res => {
-          setShow(res.data);
-          setSeasons(formatSeasons(res.data._embedded.episodes));
-        });
-    };
-    fetchShow();
+    fetchShow().then(res => {
+      console.log("res.data", res.data)
+              setShow(res.data);
+              setSeasons(formatSeasons(res.data._embedded.episodes));
+            });
   }, []);
+
+  // useEffect(() => {
+  //   const fetchShow = () => {
+  //     axios
+  //       .get(
+  //         "https://api.tvmaze.com/singlesearch/shows?q=stranger-things&embed=episodes"
+  //       )
+  //       .then(res => {
+  //         setShow(res.data);
+  //         setSeasons(formatSeasons(res.data._embedded.episodes));
+  //       });
+  //   };
+  //   fetchShow();
+  // }, []);
 
   const handleSelect = e => {
     setSelectedSeason(e.value);
@@ -45,6 +55,7 @@ export default function App() {
         options={Object.keys(seasons)}
         onChange={handleSelect}
         value={selectedSeason || "Select a season"}
+        data-testid="selectSeason"
         placeholder="Select an option"
       />
       <Episodes episodes={episodes} />
