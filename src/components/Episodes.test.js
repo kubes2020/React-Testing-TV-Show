@@ -1,11 +1,10 @@
 import React from "react";
-import { render, waitFor, screen, fireEvent } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import App from "../App";
-import { fetchShow as mockFetchShow } from "./api/fetchShow";
+import { render, screen, fireEvent } from "@testing-library/react";
+import Episodes from "./Episodes";
+// import { fetchShow as mockFetchShow } from "./api/fetchShow";
+// jest.mock("./api/fetchShow")
 
-jest.mock("./api/fetchShow")
-
+//I didn't use this data...created my own at the bottom to pass fake props in
 const mockShowData = {
     data: {
       id: 2993,
@@ -633,55 +632,50 @@ const mockShowData = {
     }
   }
 
-test("testing to see if App renders with message fetching data...", async ()=> {
+test("render Episodes", async ()=> {
     
-    mockFetchShow.mockResolvedValueOnce(mockShowData)
-    render(<App/>)
+    // mockFetchShow.mockResolvedValueOnce(mockShowData)
+    render(<Episodes episodes={[{
+        id: "",
+        image: {medium: ""},
+        name: "",
+        season: "",
+        number: "",
+        summary: "",
+        runtime: "",
 
-    const fetchingData = screen.getByText(/fetching data.../i)
-    expect(fetchingData).toBeInTheDocument()
+        }]}/>)
+
 })
 
-test("Click Season 1 and check the length of episodes", async ()=> {
-    mockFetchShow.mockResolvedValueOnce(mockShowData)
-    render(<App/>)
+// test("Click Season 1 and check the length of episodes", async ()=> {
+//     mockFetchShow.mockResolvedValueOnce(mockShowData)
+//     render(<App/>)
 
-    const dropDown = await screen.findByText(/Select a season/i)
+//     const dropDown = await screen.findByText(/Select a season/i)
     
-    userEvent.click(dropDown)
+//     userEvent.click(dropDown)
 
-    const seasonOne = await screen.findByText(/season 1/i)
+//     const seasonOne = await screen.findByText(/season 1/i)
 
-    fireEvent.click(seasonOne)
+//     fireEvent.click(seasonOne)
 
-    const episodes = await screen.findAllByText(/episode/i)
+//     const episodes = await screen.findAllByText(/episode/i)
 
-    expect(episodes).toHaveLength(8)
-})
+//     expect(episodes).toHaveLength(8)
+// })
 
-test("Click on dropdown, click on season 2 and check the length", async ()=>{
-    mockFetchShow.mockResolvedValueOnce(mockShowData)
-    render(<App/>)
+// test("Click on dropdown, click on season 2 and check the length", async ()=>{
+//     mockFetchShow.mockResolvedValueOnce(mockShowData)
+//     render(<App/>)
 
-    const dropDown = await screen.findByText(/Select a season/i)
-    userEvent.click(dropDown)
-    const seasonTwo = await screen.findByText(/season 2/i)
-    fireEvent.click(seasonTwo)
-    const episodes = await screen.findAllByText(/episode/i)
-    expect(episodes).toHaveLength(9)
-
-
+//     const dropDown = await screen.findByText(/Select a season/i)
+//     userEvent.click(dropDown)
+//     const seasonTwo = await screen.findByText(/season 2/i)
+//     fireEvent.click(seasonTwo)
+//     const episodes = await screen.findAllByText(/episode/i)
+//     expect(episodes).toHaveLength(9)
 
 
 
-
-
-    // const dropDownAgain = await screen.findByText(/select a season/i)
-    // userEvent.click(dropDownAgain)  
-
-})
-
-
-
-
-
+// })
