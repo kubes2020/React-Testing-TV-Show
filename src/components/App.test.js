@@ -633,13 +633,16 @@ const mockShowData = {
     }
   }
 
-test("testing to see if App renders", async ()=> {
+test("testing to see if App renders with message fetching data...", async ()=> {
     
     mockFetchShow.mockResolvedValueOnce(mockShowData)
     render(<App/>)
+
+    const fetchingData = screen.getByText(/fetching data.../i)
+    expect(fetchingData).toBeInTheDocument()
 })
 
-test("See if Select A Season can be clicked", async ()=> {
+test("Click Season 1 and check the length of episodes", async ()=> {
     mockFetchShow.mockResolvedValueOnce(mockShowData)
     render(<App/>)
 
@@ -656,7 +659,25 @@ test("See if Select A Season can be clicked", async ()=> {
     expect(episodes).toHaveLength(8)
 })
 
+test("Click on dropdown, click on season 2 and check the length", async ()=>{
+    mockFetchShow.mockResolvedValueOnce(mockShowData)
+    render(<App/>)
+
+    const dropDown = await screen.findByText(/Select a season/i)
+    userEvent.click(dropDown)
+    const seasonTwo = await screen.findByText(/season 2/i)
+    fireEvent.click(seasonTwo)
+    const episodes = await screen.findAllByText(/episode/i)
+    expect(episodes).toHaveLength(9)
+
+    // const dropDownAgain = await screen.findByText(/select a season/i)
+    // userEvent.click(dropDownAgain)
+
+
+
     
+
+})
 
 
 
